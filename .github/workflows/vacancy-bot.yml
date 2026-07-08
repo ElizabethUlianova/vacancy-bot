@@ -1,0 +1,50 @@
+name: vacancy-bot
+
+# Запуск по расписанию + возможность запустить вручную кнопкой в GitHub.
+on:
+  schedule:
+    - cron: "*/15 * * * *"   # каждые 15 минут (UTC; GitHub может задержать на 10-30 мин в час пик)
+  workflow_dispatch: {}
+
+# Нужно, чтобы workflow мог коммитить обновлённый seen.json обратно в репозиторий.
+permissions:
+  contents: write
+
+# Не запускать параллельно несколько прогонов одновременно.
+concurrency:
+  group: vacancy-bot
+  cancel-in-progress: false
+
+jobs:
+  run:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: "pip"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run vacancy bot (one pass)
+        env:
+          TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+          TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        run: python vacancy_bot.py --once
+
+      - name: Persist seen.json
+        run: |
+          if [ -n "$(git status --porcelain seen.json)" ]; then
+            git config user.name  "vacancy-bot"
+            git config user.email "vacancy-bot@users.noreply.github.com"
+            git add seen.json
+            git commit -m "chore: update seen.json [skip ci]"
+            git push
+          else
+            echo "seen.json без изменений — коммит не нужен."
+          fi
