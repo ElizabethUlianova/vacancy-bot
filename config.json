@@ -5,7 +5,6 @@
   },
   "search": {
     "keywords": [
-      "designer"
       "product designer",
       "product design",
       "product design lead",
@@ -15,7 +14,8 @@
   },
   "sources": {
     "hh": {
-      "enabled": true,
+      "enabled": false,
+      "_comment": "hh.ru блокирует IP дата-центров (GitHub Actions) — 403. Включай true только при запуске с домашнего/российского IP.",
       "area": null,
       "period_days": 1,
       "only_with_salary": false,

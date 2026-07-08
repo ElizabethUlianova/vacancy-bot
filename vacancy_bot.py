@@ -146,7 +146,11 @@ def src_hh(conf, keywords):
 
 
 def src_remoteok(conf, keywords):
-    r = http_get("https://remoteok.com/api")
+    # tag=design — просим именно дизайнерские вакансии, а не последние 100 по всем категориям
+    params = {}
+    if conf.get("tag", "design"):
+        params["tag"] = conf.get("tag", "design")
+    r = http_get("https://remoteok.com/api", params)
     r.raise_for_status()
     data = r.json()
     out = []
@@ -167,7 +171,10 @@ def src_remoteok(conf, keywords):
 
 
 def src_remotive(conf, keywords):
-    r = http_get("https://remotive.com/api/remote-jobs", {"limit": conf.get("limit", 200)})
+    params = {"limit": conf.get("limit", 200)}
+    if conf.get("category", "design"):
+        params["category"] = conf.get("category", "design")  # категория дизайна
+    r = http_get("https://remotive.com/api/remote-jobs", params)
     r.raise_for_status()
     out = []
     for v in r.json().get("jobs", []):
