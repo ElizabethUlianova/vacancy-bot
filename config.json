@@ -1,0 +1,44 @@
+{
+  "telegram": {
+    "bot_token": "ВСТАВЬ_ЛОКАЛЬНО_ИЛИ_ЧЕРЕЗ_GITHUB_SECRETS",
+    "chat_id": "ВСТАВЬ_ЛОКАЛЬНО_ИЛИ_ЧЕРЕЗ_GITHUB_SECRETS"
+  },
+  "search": {
+    "keywords": [
+      "product designer",
+      "product design",
+      "product design lead",
+      "product design team lead",
+      "product design manager"
+    ]
+  },
+  "sources": {
+    "hh": {
+      "enabled": true,
+      "area": null,
+      "period_days": 1,
+      "only_with_salary": false,
+      "per_page": 50
+    },
+    "remoteok": {
+      "enabled": true
+    },
+    "remotive": {
+      "enabled": true,
+      "limit": 200
+    },
+    "workingnomads": {
+      "enabled": true
+    },
+    "rss": {
+      "enabled": true,
+      "feeds": [
+        { "name": "WeWorkRemotely Design",  "url": "https://weworkremotely.com/categories/remote-design-jobs.rss" },
+        { "name": "WeWorkRemotely Product", "url": "https://weworkremotely.com/categories/remote-product-jobs.rss" },
+        { "name": "DesignJobsBoard",        "url": "https://www.designjobsboard.com/feed" },
+        { "name": "Remotive Design",        "url": "https://remotive.com/remote-jobs/feed/design" }
+      ]
+    }
+  },
+  "poll_interval_minutes": 15
+}
